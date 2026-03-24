@@ -1,0 +1,3373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver of the Month</title>
+    <link rel="icon" href="https://i.postimg.cc/7hXDp3Vw/krvtc.png" type="image/x-icon">
+    <style>
+        :root {
+            --primary-blue: rgb(0, 109, 255);
+            --primary-yellow: rgb(255, 220, 0);
+            --light-blue: rgba(0, 109, 255, 0.1);
+            --dark-blue: rgb(0, 80, 200);
+            --light-yellow: rgba(255, 220, 0, 0.1);
+            --text-dark: #333;
+            --text-light: #fff;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #D3D3D3;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header and Navigation Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--text-light);
+            padding: 20px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        h1 i {
+            margin-right: 15px;
+            color: var(--primary-yellow);
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 5px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: calc(var(--border-radius) - 2px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-tab.active {
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+        }
+
+        .nav-tab:hover:not(.active) {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Page Styles */
+        .main-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .month-selector {
+            background-color: var(--light-yellow);
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            box-shadow: var(--box-shadow);
+        }
+
+        .month-selector label {
+            font-weight: 600;
+            margin-right: 15px;
+            color: var(--text-dark);
+        }
+
+        .month-selector select {
+            padding: 10px 15px;
+            border: 2px solid var(--primary-blue);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: white;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .ranking-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .driver-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 5px solid var(--primary-blue);
+            position: relative;
+        }
+
+        .driver-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .rank-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .driver-card-header {
+            display: flex;
+            padding: 20px;
+            background-color: var(--light-blue);
+            border-bottom: 1px solid rgba(0, 109, 255, 0.2);
+        }
+
+        .driver-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-blue);
+            margin-right: 20px;
+        }
+
+        .driver-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .driver-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .driver-id {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .driver-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 10px;
+            background-color: var(--light-yellow);
+            border-radius: var(--border-radius);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+
+        .driver-card-footer {
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-points {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        .view-details-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-details-btn:hover {
+            background-color: var(--dark-blue);
+        }
+
+        /* Details Page Styles */
+        .details-page, .events-page, .hall-of-fame-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--light-blue);
+        }
+
+        .back-button {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--primary-blue);
+        }
+
+        .details-container, .events-container, .hall-of-fame-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .details-summary {
+            display: flex;
+            padding: 25px;
+            background-color: var(--light-blue);
+            border-bottom: 1px solid rgba(0, 109, 255, 0.2);
+        }
+
+        .details-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary-blue);
+            margin-right: 30px;
+        }
+
+        .details-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .details-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 25px;
+        }
+
+        .monthly-data, .event-details, .hof-content {
+            padding: 25px;
+        }
+
+        .monthly-data h3, .event-details h3, .hof-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .month-table, .events-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        .month-table th, .events-table th {
+            background-color: var(--primary-blue);
+            color: white;
+            text-align: left;
+            padding: 15px;
+            font-weight: 600;
+        }
+
+        .month-table td, .events-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .month-table tr:nth-child(even), .events-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .month-table tr:hover, .events-table tr:hover {
+            background-color: var(--light-yellow);
+        }
+
+        .convoy-list {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .convoy-list li {
+            margin-bottom: 5px;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ddd;
+        }
+
+        .convoy-list li:last-child {
+            border-bottom: none;
+        }
+
+        .convoy-badge {
+            display: inline-block;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-right: 8px;
+            border: 1px solid rgba(0, 109, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .convoy-badge:hover {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+
+        .point-formula {
+            background-color: var(--light-yellow);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .point-formula h4 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .point-formula code {
+            background-color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--dark-blue);
+        }
+
+        /* Events Page Styles */
+        .month-header-row {
+            background-color: var(--light-blue) !important;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .month-header-row td {
+            padding: 20px 15px;
+            border-bottom: 2px solid var(--primary-blue);
+        }
+
+        .event-row {
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .event-row:hover {
+            background-color: var(--light-yellow) !important;
+        }
+
+        .event-drivers-section {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: var(--light-blue);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .event-drivers-section h4 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .event-drivers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .event-driver-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .event-driver-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .event-driver-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .event-driver-name {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 1rem;
+        }
+
+        /* Hall of Fame Page Styles */
+        .hof-content {
+            padding: 30px;
+        }
+
+        .hof-month-section {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--light-blue);
+        }
+
+        .hof-month-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .hof-month-title {
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-yellow);
+            display: flex;
+            align-items: center;
+        }
+
+        .hof-month-title i {
+            margin-right: 15px;
+            color: var(--primary-yellow);
+        }
+
+        .hof-winners-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .hof-top-winner {
+            background: linear-gradient(135deg, var(--light-blue), white);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            border: 3px solid var(--primary-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .hof-top-winner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 109, 255, 0.2);
+            border-color: var(--primary-yellow);
+        }
+
+        .hof-winner-badge {
+            background-color: var(--primary-yellow);
+            color: var(--text-dark);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .hof-top-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid var(--primary-blue);
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hof-top-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .hof-top-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .hof-elite-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .hof-elite-winner {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            border: 2px solid var(--light-blue);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .hof-elite-winner:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 109, 255, 0.15);
+            border-color: var(--primary-blue);
+        }
+
+        .hof-elite-badge {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 6px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1rem;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .hof-elite-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .hof-elite-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .hof-elite-subtitle {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* No winners message */
+        .hof-no-winners {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--light-yellow);
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--primary-yellow);
+        }
+
+        .hof-no-winners i {
+            font-size: 3rem;
+            color: var(--primary-yellow);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Overall Rankings Page Styles */
+        .overall-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .overall-container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .overall-controls {
+            padding: 25px;
+            background-color: var(--light-blue);
+            border-bottom: 1px solid rgba(0, 109, 255, 0.2);
+        }
+
+        .sort-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .sort-controls label {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .sort-controls select {
+            padding: 8px 15px;
+            border: 2px solid var(--primary-blue);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: white;
+            color: var(--text-dark);
+            cursor: pointer;
+            min-width: 150px;
+        }
+
+        .overall-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 25px;
+            background-color: var(--light-yellow);
+        }
+
+        .overall-stat {
+            text-align: center;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .overall-ranking-container {
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        .overall-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .overall-table th {
+            background-color: var(--primary-blue);
+            color: white;
+            text-align: left;
+            padding: 15px;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .overall-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .overall-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .overall-table tr:hover {
+            background-color: var(--light-yellow);
+        }
+
+        .overall-table .rank-cell {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+            text-align: center;
+        }
+
+        .overall-table .driver-cell {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .overall-table .driver-avatar-small {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-blue);
+        }
+
+        .overall-table .driver-info-small {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .overall-table .driver-name-small {
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .overall-table .driver-id-small {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .overall-table .points-cell {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--dark-blue);
+        }
+
+        .view-details-btn-small {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-details-btn-small:hover {
+            background-color: var(--dark-blue);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .nav-tabs {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .main-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .month-selector {
+                width: 100%;
+            }
+            
+            .ranking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .details-summary {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .details-avatar {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .details-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .event-drivers-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 15px;
+            }
+            
+            .hof-top-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .hof-top-name {
+                font-size: 1.7rem;
+            }
+            
+            .hof-elite-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sort-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .sort-controls select {
+                width: 100%;
+            }
+            
+            .overall-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .details-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .driver-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .month-table, .events-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .event-drivers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hof-top-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .hof-top-name {
+                font-size: 1.5rem;
+            }
+            
+            .overall-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .overall-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .nav-tab {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Tabs -->
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1><i>🏆</i> Driver of the Month</h1>
+                    <p class="subtitle">Ranking drivers based on kilometers driven and convoy participation</p>
+                </div>
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-page="main">Monthly Rankings</button>
+                    <button class="nav-tab" data-page="hall-of-fame">Hall of Fame</button>
+                    <button class="nav-tab" data-page="events">Events</button>
+                    <button class="nav-tab" data-page="overall">Overall Rankings</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Page (Rankings) -->
+        <div id="main-page" class="page">
+            <div class="main-controls">
+                <div class="month-selector">
+                    <label for="month-select">Select Month:</label>
+                    <select id="month-select">
+                        <option value="2025-11">November 2025</option>
+                        <option value="2025-12">December 2025</option>
+                        <option value="2026-01">January 2026</option>
+                        <option value="2026-02" selected>February 2026</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="point-formula">
+                <h4>Point Calculation Formula:</h4>
+                <p><code>Total Points = (Kilometers Driven × 0.001) + (Convoys Attended × 8)</code></p>
+            </div>
+
+            <div class="ranking-container" id="ranking-container">
+                <!-- Driver cards will be dynamically generated here -->
+            </div>
+
+            <footer>
+                <p>Driver Ranking System &copy; 2026 | KERALA ROADRUNNERS</p>
+            </footer>
+        </div>
+
+        <!-- Hall of Fame Page -->
+        <div id="hall-of-fame-page" class="hall-of-fame-page page">
+            <div class="page-header">
+                <button class="back-button" id="back-to-main-from-hof">
+                    <span>← Back to Ranking</span>
+                </button>
+                <h2 class="page-title">Hall of Fame</h2>
+            </div>
+
+            <div class="hall-of-fame-container">
+                <div class="hof-content" id="hof-content">
+                    <!-- Hall of Fame content will be manually added here -->
+                    <!-- Example structure (you can edit this manually): -->
+                    <!--
+                    <div class="hof-month-section">
+                        <h3 class="hof-month-title"><i>🏆</i> November 2025</h3>
+                        <div class="hof-winners-container">
+                            <div class="hof-top-winner" data-driver-id="1">
+                                <div class="hof-winner-badge">Driver of the Month</div>
+                                <img src="https://example.com/avatar1.jpg" alt="John" class="hof-top-avatar">
+                                <div class="hof-top-name">John</div>
+                                <div class="hof-top-subtitle">#1 Driver of November 2025</div>
+                            </div>
+                            
+                            <div class="hof-elite-container">
+                                <div class="hof-elite-winner" data-driver-id="2">
+                                    <div class="hof-elite-badge">Elite Driver (2nd Place)</div>
+                                    <img src="https://example.com/avatar2.jpg" alt="Jane" class="hof-elite-avatar">
+                                    <div class="hof-elite-name">Jane</div>
+                                    <div class="hof-elite-subtitle">#2 Elite Driver</div>
+                                </div>
+                                
+                                <div class="hof-elite-winner" data-driver-id="3">
+                                    <div class="hof-elite-badge">Elite Driver (3rd Place)</div>
+                                    <img src="https://example.com/avatar3.jpg" alt="Bob" class="hof-elite-avatar">
+                                    <div class="hof-elite-name">Bob</div>
+                                    <div class="hof-elite-subtitle">#3 Elite Driver</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="hof-month-section">
+                        <h3 class="hof-month-title"><i>🏆</i> December 2025</h3>
+                        <div class="hof-winners-container">
+                            <div class="hof-top-winner" data-driver-id="4">
+                                <div class="hof-winner-badge">Driver of the Month</div>
+                                <img src="https://example.com/avatar4.jpg" alt="Sarah" class="hof-top-avatar">
+                                <div class="hof-top-name">Sarah</div>
+                                <div class="hof-top-subtitle">#1 Driver of December 2025</div>
+                            </div>
+                            
+                            <div class="hof-elite-container">
+                                <div class="hof-elite-winner" data-driver-id="5">
+                                    <div class="hof-elite-badge">Elite Driver (2nd Place)</div>
+                                    <img src="https://example.com/avatar5.jpg" alt="Mike" class="hof-elite-avatar">
+                                    <div class="hof-elite-name">Mike</div>
+                                    <div class="hof-elite-subtitle">#2 Elite Driver</div>
+                                </div>
+                                
+                                <div class="hof-elite-winner" data-driver-id="6">
+                                    <div class="hof-elite-badge">Elite Driver (3rd Place)</div>
+                                    <img src="https://example.com/avatar6.jpg" alt="Alex" class="hof-elite-avatar">
+                                    <div class="hof-elite-name">Alex</div>
+                                    <div class="hof-elite-subtitle">#3 Elite Driver</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    
+                    <!-- MANUAL EDITING AREA - You can add/edit winners here -->
+                    <!-- Add your Hall of Fame winners manually below this line -->
+                    
+                    <!-- Example for February 2026 -->
+                    <div class="hof-month-section">
+                        <h3 class="hof-month-title"><i>🏆</i> February 2026</h3>
+                        <div class="hof-winners-container">
+                            <div class="hof-top-winner" data-driver-id="5">
+                                <div class="hof-winner-badge">Driver of the Month</div>
+                                <img src="https://cdn.discordapp.com/avatars/796643145025585212/d2b58118a353a1e77f4d69edbd928ce7.png?size=512" alt="Mridul" class="hof-top-avatar">
+                                <div class="hof-top-name">Mridul</div>
+                                <div class="hof-top-subtitle">#1 Driver of February 2026</div>
+                            </div>
+                        </div>
+                    </div>
+                      <!-- Example for January 2026 -->
+                    <div class="hof-month-section">
+                        <h3 class="hof-month-title"><i>🏆</i> January 2026</h3>
+                        <div class="hof-winners-container">
+                            <div class="hof-top-winner" data-driver-id="10">
+                                <div class="hof-winner-badge">Driver of the Month</div>
+                                <img src="https://cdn.discordapp.com/avatars/1410719494170607776/6f6e019fb714297e97b9dc6702237d9d.webp?size=512" alt="Horizon Hauler" class="hof-top-avatar">
+                                <div class="hof-top-name">Horizon Hauler</div>
+                                <div class="hof-top-subtitle">#1 Driver of January 2026</div>
+                            </div>
+                            
+                            <div class="hof-elite-container">
+                                <div class="hof-elite-winner" data-driver-id="9">
+                                    <div class="hof-elite-badge">Elite Driver</div>
+                                    <img src="https://cdn.discordapp.com/avatars/1410719494170607776/6f6e019fb714297e97b9dc6702237d9d.webp?size=512" alt="Horizon Hauler" class="hof-top-avatar">
+                                    <div class="hof-top-name">Horizon Hauler</div>
+                                    <div class="hof-elite-subtitle">Elite Driver</div>
+                                </div>
+                                
+                                <div class="hof-elite-winner" data-driver-id="5">
+                                    <div class="hof-elite-badge">Elite Driver</div>
+                                    <img src="https://cdn.discordapp.com/avatars/1410948432851505283/89c6dc51857e40d82decfa5dfbd48c25.webp?size=512" alt="Arizonablu" class="hof-top-avatar">
+                                    <div class="hof-top-name">Arizonablu</div>
+                                    <div class="hof-elite-subtitle">#2 Elite Driver</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Example for December 2025 -->
+                    <div class="hof-month-section">
+                        <h3 class="hof-month-title"><i>🏆</i> December 2025</h3>
+                        <div class="hof-winners-container">
+                            <div class="hof-top-winner" data-driver-id="11">
+                                <div class="hof-winner-badge">Driver of the Month</div>
+                                <img src="https://cdn.discordapp.com/avatars/738752066087813170/b67d4f7e243d21367fa45d1e0273cad0.webp?size=512" alt="Sid" class="hof-top-avatar">
+                                <div class="hof-top-name">Sid</div>
+                                <div class="hof-top-subtitle">#1 Driver of December 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Example for November 2025 -->
+                    <div class="hof-month-section">
+                        <h3 class="hof-month-title"><i>🏆</i> November 2025</h3>
+                        <div class="hof-winners-container">
+                            <div class="hof-top-winner" data-driver-id="4">
+                                <div class="hof-winner-badge">Driver of the Month</div>
+                                <img src="https://cdn.discordapp.com/avatars/1222565563830767878/a5dc5a169d499d6759113610993c7445.webp?size=512" alt="White Devil" class="hof-top-avatar">
+                                <div class="hof-top-name">White Devil</div>
+                                <div class="hof-top-subtitle">#1 Driver of November 2025</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    
+                  
+                    
+                    <!-- You can add more months here following the same pattern -->
+                    <!-- 
+                    <div class="hof-month-section">
+                        <h3 class="hof-month-title"><i>🏆</i> February 2026</h3>
+                        <div class="hof-winners-container">
+                            <div class="hof-top-winner" data-driver-id="X">
+                                <div class="hof-winner-badge">Driver of the Month</div>
+                                <img src="DRIVER_AVATAR_URL" alt="DRIVER_NAME" class="hof-top-avatar">
+                                <div class="hof-top-name">DRIVER_NAME</div>
+                                <div class="hof-top-subtitle">#1 Driver of February 2026</div>
+                            </div>
+                            
+                            <div class="hof-elite-container">
+                                <div class="hof-elite-winner" data-driver-id="Y">
+                                    <div class="hof-elite-badge">Elite Driver (2nd Place)</div>
+                                    <img src="DRIVER_AVATAR_URL" alt="DRIVER_NAME" class="hof-elite-avatar">
+                                    <div class="hof-elite-name">DRIVER_NAME</div>
+                                    <div class="hof-elite-subtitle">#2 Elite Driver</div>
+                                </div>
+                                
+                                <div class="hof-elite-winner" data-driver-id="Z">
+                                    <div class="hof-elite-badge">Elite Driver (3rd Place)</div>
+                                    <img src="DRIVER_AVATAR_URL" alt="DRIVER_NAME" class="hof-elite-avatar">
+                                    <div class="hof-elite-name">DRIVER_NAME</div>
+                                    <div class="hof-elite-subtitle">#3 Elite Driver</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    
+                </div>
+            </div>
+            
+            <footer>
+                <p>Driver Ranking System &copy; 2026 | KERALA ROADRUNNERS</p>
+            </footer>
+        </div>
+
+        <!-- Details Page (hidden by default) -->
+        <div id="details-page" class="details-page page">
+            <div class="page-header">
+                <button class="back-button" id="back-to-main">
+                    <span>← Back to Ranking</span>
+                </button>
+                <h2 class="page-title" id="details-title">Driver Details</h2>
+            </div>
+
+            <div class="details-container">
+                <div class="details-summary">
+                    <img id="details-avatar" src="" alt="Driver Avatar" class="details-avatar">
+                    <div class="details-info">
+                        <h2 id="details-name" class="driver-name">Driver Name</h2>
+                        <p id="details-id" class="driver-id">Driver ID: </p>
+                    </div>
+                </div>
+
+                <div class="details-stats">
+                    <div class="stat">
+                        <div class="stat-value" id="details-total-points">0</div>
+                        <div class="stat-label">Total Points</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="details-total-km">0</div>
+                        <div class="stat-label">Total KM</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="details-total-convoys">0</div>
+                        <div class="stat-label">Total Convoys</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="details-months">0</div>
+                        <div class="stat-label">Months Tracked</div>
+                    </div>
+                </div>
+
+                <div class="monthly-data" id="monthly-data">
+                    <!-- Monthly data tables will be dynamically generated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Page (hidden by default) -->
+        <div id="events-page" class="events-page page">
+            <div class="page-header">
+                <button class="back-button" id="back-to-main-from-events">
+                    <span>← Back to Ranking</span>
+                </button>
+                <h2 class="page-title">All Events</h2>
+            </div>
+
+            <div class="events-container">
+                <div class="event-details">
+                    <h3>Events by Month</h3>
+                    <table class="events-table" id="events-table">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Drivers Attended</th>
+                            </tr>
+                        </thead>
+                        <tbody id="events-table-body">
+                            <!-- Events will be dynamically generated here -->
+                        </tbody>
+                    </table>
+
+                    <div id="event-drivers-section" class="event-drivers-section" style="display: none;">
+                        <h4 id="selected-event-title"></h4>
+                        <div class="event-drivers-grid" id="event-drivers-grid">
+                            <!-- Event drivers will be dynamically generated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overall Rankings Page (hidden by default) -->
+        <div id="overall-page" class="overall-page page">
+            <div class="page-header">
+                <button class="back-button" id="back-to-main-from-overall">
+                    <span>← Back to Monthly</span>
+                </button>
+                <h2 class="page-title">Overall Driver Rankings</h2>
+            </div>
+
+            <div class="overall-container">
+                <div class="overall-controls">
+                    <div class="sort-controls">
+                        <label for="sort-by">Sort By:</label>
+                        <select id="sort-by">
+                            <option value="points">Total Points</option>
+                            <option value="kilometers">Total Kilometers</option>
+                            <option value="convoys">Total Convoys</option>
+                        </select>
+                        
+                        <label for="time-period">Time Period:</label>
+                        <select id="time-period">
+                            <option value="lifetime">Lifetime</option>
+                            <option value="2025">2025</option>
+                            <option value="2025-11">November 2025</option>
+                            <option value="2025-12">December 2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2026-01">January 2026</option>
+                            <option value="2026-02">February 2026</option>
+                        </select>
+                        
+                        <label for="sort-order">Order:</label>
+                        <select id="sort-order">
+                            <option value="desc">Highest First</option>
+                            <option value="asc">Lowest First</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overall-stats">
+                    <div class="overall-stat">
+                        <div class="stat-value" id="total-drivers">0</div>
+                        <div class="stat-label">Total Drivers</div>
+                    </div>
+                    <div class="overall-stat">
+                        <div class="stat-value" id="avg-points">0</div>
+                        <div class="stat-label">Avg Points</div>
+                    </div>
+                    <div class="overall-stat">
+                        <div class="stat-value" id="total-km-overall">0</div>
+                        <div class="stat-label">Total KM</div>
+                    </div>
+                    <div class="overall-stat">
+                        <div class="stat-value" id="total-convoys-overall">0</div>
+                        <div class="stat-label">Total Convoys</div>
+                    </div>
+                </div>
+
+                <div class="overall-ranking-container">
+                    <table class="overall-table" id="overall-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Driver</th>
+                                <th>Total Points</th>
+                                <th>Total KM</th>
+                                <th>Total Convoys</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overall-table-body">
+                            <!-- Overall ranking rows will be generated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         // Available convoy names
+        const availableConvoys =  [
+            "KERALA ROADRUNNERS NOVEMBER VOYAGE", "ITVTC 59TH PUBLIC CONVOY", "CRIMSON MOON OPENING CONVOY", "INDIAN CARRIERS NOVEMBER PUBLIC CONVOY 2025", "Kerala RoadRunners Private Convoy", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12", "Saffron Line CC - Opening Convoy", "KERALA LOGISTICS WEEKLY CONVOY #14", "1st Anniversary- INDIAN GROUP", "KERALA LOGISTICS WEEKLY CONVOY #15",
+             "Muguang Logistics Skoda Theme Public Convoy", "ITVTC 60TH PUBLIC CONVOY", "KERALA LOGISTICS WEEKLY CONVOY #16", "MALKOCOGLU LOGISTICS DECEMBER CONVOY #9", "Saffron Line CC - December Convoy", "Aura's Monthly Convoy December #9", "Line of Energy 7 Year Anniversary", "INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025", "Kerala logistics weekly convoy 17", "Nova Community Public Convoy #2", "NEXUS TRANSPORT DECEMBER CONVOY", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "UHVTC 2nd Anniversary Convoy", "HG Logistics 5th Year Anniversary", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY", "Tamil Pasanga VTC December 2025 Public Convoy",
+             "NepPath Begins: Our First TruckerMP Journey !", "INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Muguang Logistics 9th Public Convoy", "Kerala Roadrunners American Run", "Kerala RoadRunners Private Convoy - 17", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "NEXON TRANSPORT JANUARY CONVOY", "Sentinel Express – Frozen Route Convoy", "Lirio Logistics Public Convoy # 1", "Güven Logistics 4th Anniversary Convoy", "Hazmat Works with Pean Logistics", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "Royal Swag | Opening Convoy", "Saints Logistics | Opening Convoy", "NEXUS TRANSPORT JANUARY CONVOY", "Navy Cargo Re-Opening Convoy", "Qicheng Logistics | 4st Anniversary Event", "ETS2MCG January Convoy", "TAMIL PASANGA VTC 2026 Kickstart Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13", "77th Republic Day of India", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "RSL 10 Years Anniversary", "United in Diversity – A Stand Against Racism | Awareness",
+
+             "ITVTC Valentine's Haul: Delivering Love public convoy #62", "KERALA LOGISTICS FEBRUARY CONVOY", "NepPath February Convoy #2 - Events - TruckersMP", "SEA Logistic Reopening Convoy", "Ouka Logistics 1st Anniversary Event", "Kerala RoadRunners Private Convoy - 18", "Energy (ATS) February Convoy 2026", "Hearts on the Highway | INDIAN GROUP", "KERALA LOGISTICS_2026_Weekly Convoy#3", "Aventador's Birthday Party", "SFMPDL X Indian Carriers Partnership Convoy", "Kerala Roadrunners Hearts on Wheels", "FLEX LOGISTICS 1 Year Anniversary", "TAMILNADU LOGISTICS celebrating 2 Years on the Road", "TRANSCOM Opening Public Convoy #1", "NEXUS TRANSPORT 2ND ANNIVERSARY CONVOY", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026", "Hardik’s Birthday RoadFest – Powered by Indian Group", "TAMIL PASANGA February 2026 Public Convoy #12",
+        ];
+
+        // Driver data - can be edited to add/update/delete drivers
+        const driversData = [
+             {
+                id: 1,
+                name: "DUDE GAMING YT",
+                avatar: "https://cdn.discordapp.com/avatars/847731679674105857/f282bdfc3b16be33c39a8b0dacad249b.png?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 5236, 
+                        convoys: 2,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "Kerala RoadRunners Private Convoy"]
+                    },
+                    "2025-12": { 
+                        kilometers: 3417, 
+                        convoys: 3,
+                        convoyNames: ["Kerala logistics weekly convoy 17", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                     "2026-01": { 
+                        kilometers: 9563, 
+                        convoys: 5,
+                        convoyNames: ["Muguang Logistics 9th Public Convoy", "Kerala Roadrunners American Run", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "NEXON TRANSPORT JANUARY CONVOY", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY"]
+                    },
+                    "2026-02": { 
+                        kilometers: 2029, 
+                        convoys: 1,
+                        convoyNames: ["KERALA LOGISTICS_2026_Weekly Convoy#3"]
+                    }
+                   
+                }
+            },
+            {
+                id: 2,
+                name: "Trucking Graduate",
+                avatar: "https://cdn.discordapp.com/avatars/1007001053595717759/5015b9bea65c22d5089701278c5ff569.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1097, 
+                        convoys: 2,
+                        convoyNames: ["1st Anniversary- INDIAN GROUP", "KERALA LOGISTICS WEEKLY CONVOY #15"]
+                    },
+                    "2025-12": { 
+                        kilometers: 11776, 
+                        convoys: 5,
+                        convoyNames: ["Nova Community Public Convoy #2", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                    "2026-01": { 
+                        kilometers: 5008, 
+                        convoys: 4,
+                        convoyNames: ["NepPath Begins: Our First TruckerMP Journey !", "INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Muguang Logistics 9th Public Convoy", "Kerala Roadrunners American Run"]
+                    },
+                    "2026-02": { 
+                        kilometers: 21392, 
+                        convoys: 8, 
+                        convoyNames: ["SEA Logistic Reopening Convoy", "Aventador's Birthday Party", "Kerala Roadrunners Hearts on Wheels", "TAMILNADU LOGISTICS celebrating 2 Years on the Road", "TRANSCOM Opening Public Convoy #1", "NEXUS TRANSPORT 2ND ANNIVERSARY CONVOY", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026", "TAMIL PASANGA February 2026 Public Convoy #12"]
+                    }
+                }
+            },
+            {
+                id: 3,
+                name: "Happy",
+                avatar: "https://cdn.discordapp.com/avatars/590852737755906099/de22f5e6b80be093a3aa4959b476a1be.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 0, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 4,
+                name: "White Devil",
+                avatar: "https://cdn.discordapp.com/avatars/1222565563830767878/a5dc5a169d499d6759113610993c7445.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 35326, 
+                        convoys: 10,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "ITVTC 59TH PUBLIC CONVOY", "CRIMSON MOON OPENING CONVOY", "INDIAN CARRIERS NOVEMBER PUBLIC CONVOY 2025", 
+                                     "Kerala RoadRunners Private Convoy", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12", "Saffron Line CC - Opening Convoy", "1st Anniversary- INDIAN GROUP", 
+                                     "KERALA LOGISTICS WEEKLY CONVOY #15"]
+                    },
+                    "2025-12": {
+                        kilometers: 19017,
+                        convoys: 10,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "KERALA LOGISTICS WEEKLY CONVOY #16", "Aura's Monthly Convoy December #9", "Line of Energy 7 Year Anniversary", "INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025", "Kerala logistics weekly convoy 17", "Nova Community Public Convoy #2", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "Tamil Pasanga VTC December 2025 Public Convoy"]
+                    },
+                    "2026-01": { 
+                        kilometers: 12712, 
+                        convoys: 13,
+                        convoyNames: ["INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Muguang Logistics 9th Public Convoy", "Kerala Roadrunners American Run", "Kerala RoadRunners Private Convoy - 17", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "Lirio Logistics Public Convoy # 1", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "NEXON TRANSPORT JANUARY CONVOY", "Navy Cargo Re-Opening Convoy", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "RSL 10 Years Anniversary", "United in Diversity – A Stand Against Racism | Awareness"]
+                    },
+                    "2026-02": { 
+                        kilometers: 12788, 
+                        convoys: 11,
+                        convoyNames: ["SEA Logistic Reopening Convoy", "Ouka Logistics 1st Anniversary Event", "Kerala RoadRunners Private Convoy - 18", "Aventador's Birthday Party", "SFMPDL X Indian Carriers Partnership Convoy", "Kerala Roadrunners Hearts on Wheels", "FLEX LOGISTICS 1 Year Anniversary", "NEXUS TRANSPORT 2ND ANNIVERSARY CONVOY", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026", "Hardik’s Birthday RoadFest – Powered by Indian Group", "TAMIL PASANGA February 2026 Public Convoy #12"]
+                    },
+                }
+            },
+             {
+                id: 5,
+                name: "Mridul",
+                avatar: "https://cdn.discordapp.com/avatars/796643145025585212/d2b58118a353a1e77f4d69edbd928ce7.png?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 26113, 
+                        convoys: 8,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "CRIMSON MOON OPENING CONVOY", "INDIAN CARRIERS NOVEMBER PUBLIC CONVOY 2025",
+                                       "Kerala RoadRunners Private Convoy", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12", "KERALA LOGISTICS WEEKLY CONVOY #14",
+                                        "1st Anniversary- INDIAN GROUP", "KERALA LOGISTICS WEEKLY CONVOY #15"]
+                    },
+                    "2025-12": {
+                        kilometers: 29332,
+                        convoys: 10,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "ITVTC 60TH PUBLIC CONVOY", "KERALA LOGISTICS WEEKLY CONVOY #16", "Saffron Line CC - December Convoy", "NEXUS TRANSPORT DECEMBER CONVOY", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "HG Logistics 5th Year Anniversary", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY", "Tamil Pasanga VTC December 2025 Public Convoy"]
+                    },
+                    "2026-01": { 
+                        kilometers: 69926, 
+                        convoys: 15,
+                        convoyNames: ["NepPath Begins: Our First TruckerMP Journey !", "INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Muguang Logistics 9th Public Convoy", "Kerala Roadrunners American Run", "Kerala RoadRunners Private Convoy - 17", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "NEXON TRANSPORT JANUARY CONVOY", "Lirio Logistics Public Convoy # 1", "Hazmat Works with Pean Logistics", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "NEXON TRANSPORT JANUARY CONVOY", "ETS2MCG January Convoy", "TAMIL PASANGA VTC 2026 Kickstart Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13"]
+                    },
+                    "2026-02": { 
+                        kilometers: 30409,
+                        convoys: 12,
+                        convoyNames: ["ITVTC Valentine's Haul: Delivering Love public convoy #62", "KERALA LOGISTICS FEBRUARY CONVOY", "NepPath February Convoy #2 - Events - TruckersMP", "SEA Logistic Reopening Convoy", "Kerala RoadRunners Private Convoy - 18", "Energy (ATS) February Convoy 2026", "Kerala Roadrunners Hearts on Wheels", "FLEX LOGISTICS 1 Year Anniversary", "TAMILNADU LOGISTICS celebrating 2 Years on the Road", "NEXUS TRANSPORT 2ND ANNIVERSARY CONVOY", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026", "Hardik’s Birthday RoadFest – Powered by Indian Group"]
+                    },
+                }
+            },
+             {
+                id: 6,
+                name: "Nivie Cool",
+                avatar: "https://cdn.discordapp.com/avatars/1152882004015202306/4683d520c01f2e2b1e416f78bb8556b3.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 20640, 
+                        convoys: 4,
+                        convoyNames: ["Kerala RoadRunners Private Convoy", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12", "Saffron Line CC - Opening Convoy", "1st Anniversary- INDIAN GROUP"]
+                    },
+                    "2025-12": {
+                        kilometers: 14832,
+                        convoys: 7,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "KERALA LOGISTICS WEEKLY CONVOY #16", "MALKOCOGLU LOGISTICS DECEMBER CONVOY #9", "Saffron Line CC - December Convoy", "Aura's Monthly Convoy December #9", "Line of Energy 7 Year Anniversary", "INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025"]
+                    },
+                    "2026-01": { 
+                        kilometers: 0,
+                        convoys: 2,
+                        convoyNames: ["Navy Cargo Re-Opening Convoy", "77th Republic Day of India"]
+                    },
+                    "2026-02": { 
+                        kilometers: 0,
+                        convoys: 4,
+                        convoyNames: ["SEA Logistic Reopening Convoy", "SFMPDL X Indian Carriers Partnership Convoy", "Kerala Roadrunners Hearts on Wheels", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026"]
+                    },
+                }
+            },
+            {
+                id: 7,
+                name: "JOK3R",
+                avatar: "https://cdn.discordapp.com/avatars/1005409594534801449/bd4c0f5f10884300c86b0fec168b76d6.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 17125, 
+                        convoys: 5,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "Kerala RoadRunners Private Convoy", "Saffron Line CC - Opening Convoy",
+                                      "KERALA LOGISTICS WEEKLY CONVOY #14", "1st Anniversary- INDIAN GROUP"]
+                    },
+                    "2025-12": {
+                        kilometers: 11703,
+                        convoys: 5,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "Saffron Line CC - December Convoy", "Kerala logistics weekly convoy 17", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                    "2026-01": { 
+                        kilometers: 19550, 
+                        convoys: 9,
+                        convoyNames: ["INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Kerala Roadrunners American Run", "NEXON TRANSPORT JANUARY CONVOY", "Lirio Logistics Public Convoy # 1", "Hazmat Works with Pean Logistics", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "NEXON TRANSPORT JANUARY CONVOY", "Navy Cargo Re-Opening Convoy"]
+                    }
+                }
+            },
+            {
+                id: 8,
+                name: "Obito",
+                avatar: "https://cdn.discordapp.com/avatars/756874151557333062/187becc0116f63e5f9f7227ecaee3085.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 15060, 
+                        convoys: 2,
+                        convoyNames: ["Kerala RoadRunners Private Convoy", "ITVTC 60TH PUBLIC CONVOY"]
+                    },
+                    "2025-12": {
+                        kilometers: 10945,
+                        convoys: 6,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "KERALA LOGISTICS WEEKLY CONVOY #16", "MALKOCOGLU LOGISTICS DECEMBER CONVOY #9", "Aura's Monthly Convoy December #9", "Line of Energy 7 Year Anniversary", "Kerala logistics weekly convoy 17"]
+                    },
+                     "2026-01": { 
+                        kilometers: 9860, 
+                        convoys: 8,
+                        convoyNames: ["Kerala RoadRunners Private Convoy - 17", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "NEXON TRANSPORT JANUARY CONVOY", "Qicheng Logistics | 4st Anniversary Event", "ETS2MCG January Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "TAMIL PASANGA February 2026 Public Convoy #12"]
+                    },
+                    "2026-02": { 
+                        kilometers: 2431, 
+                        convoys: 3,
+                        convoyNames: ["SEA Logistic Reopening Convoy", "Kerala Roadrunners Hearts on Wheels", "Hardik’s Birthday RoadFest – Powered by Indian Group"]
+                    },
+                }
+            },
+           {
+                id: 9,
+                name: "Arizonablu",
+                avatar: "https://cdn.discordapp.com/avatars/1410948432851505283/89c6dc51857e40d82decfa5dfbd48c25.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 14265, 
+                        convoys: 3,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "CRIMSON MOON OPENING CONVOY", "INDIAN CARRIERS NOVEMBER PUBLIC CONVOY 2025"]
+                    },
+                    "2025-12": { 
+                        kilometers: 7529, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-01": { 
+                        kilometers: 63533, 
+                        convoys: 16,
+                        convoyNames: ["NepPath Begins: Our First TruckerMP Journey !", "INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Muguang Logistics 9th Public Convoy", "Kerala RoadRunners Private Convoy - 17", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "NEXON TRANSPORT JANUARY CONVOY", "Lirio Logistics Public Convoy # 1", "Hazmat Works with Pean Logistics", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "NEXON TRANSPORT JANUARY CONVOY", "Navy Cargo Re-Opening Convoy", "TAMIL PASANGA VTC 2026 Kickstart Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "United in Diversity – A Stand Against Racism | Awareness"]
+                    },
+                    "2026-02": { 
+                        kilometers: 16805, 
+                        convoys: 10,
+                        convoyNames: ["ITVTC Valentine's Haul: Delivering Love public convoy #62", "KERALA LOGISTICS FEBRUARY CONVOY", "NepPath February Convoy #2 - Events - TruckersMP", "Ouka Logistics 1st Anniversary Event", "Kerala RoadRunners Private Convoy - 18", "Hearts on the Highway | INDIAN GROUP", "FLEX LOGISTICS 1 Year Anniversary", "TAMILNADU LOGISTICS celebrating 2 Years on the Road", "NEXUS TRANSPORT 2ND ANNIVERSARY CONVOY", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026"]
+                    },
+                }
+            },
+          {
+                id: 10,
+                name: "Horizon Hauler",
+                avatar: "https://cdn.discordapp.com/avatars/1410719494170607776/6f6e019fb714297e97b9dc6702237d9d.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 9379, 
+                        convoys: 7,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "CRIMSON MOON OPENING CONVOY", "INDIAN CARRIERS NOVEMBER PUBLIC CONVOY 2025", 
+                                      "Kerala RoadRunners Private Convoy", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12", "Saffron Line CC - Opening Convoy", 
+                                       "1st Anniversary- INDIAN GROUP"]
+                    },
+                    "2025-12": {
+                        kilometers: 28175,
+                        convoys: 13,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "ITVTC 60TH PUBLIC CONVOY", "KERALA LOGISTICS WEEKLY CONVOY #16", "MALKOCOGLU LOGISTICS DECEMBER CONVOY #9", "Saffron Line CC - December Convoy", "Nova Community Public Convoy #2", "NEXUS TRANSPORT DECEMBER CONVOY", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "UHVTC 2nd Anniversary Convoy", "HG Logistics 5th Year Anniversary", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                    "2026-01": { 
+                        kilometers: 101054, 
+                        convoys: 20,
+                        convoyNames: ["NepPath Begins: Our First TruckerMP Journey !", "INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Muguang Logistics 9th Public Convoy", "Kerala Roadrunners American Run", "Kerala RoadRunners Private Convoy - 17", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "NEXON TRANSPORT JANUARY CONVOY", "Sentinel Express – Frozen Route Convoy", "Lirio Logistics Public Convoy # 1", "Hazmat Works with Pean Logistics", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "Royal Swag | Opening Convoy", "Saints Logistics | Opening Convoy", "NEXON TRANSPORT JANUARY CONVOY", "Navy Cargo Re-Opening Convoy", "ETS2MCG January Convoy", "TAMIL PASANGA VTC 2026 Kickstart Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "RSL 10 Years Anniversary"]
+                    },
+                    "2026-02": { 
+                        kilometers: 14398, 
+                        convoys: 5,
+                        convoyNames: ["NepPath February Convoy #2 - Events - TruckersMP", "SEA Logistic Reopening Convoy", "Kerala RoadRunners Private Convoy - 18", "Kerala Roadrunners Hearts on Wheels", "FLEX LOGISTICS 1 Year Anniversary"]
+                    },
+                }
+            },
+            {
+                id: 11,
+                name: "Sid",
+                avatar: "https://cdn.discordapp.com/avatars/738752066087813170/b67d4f7e243d21367fa45d1e0273cad0.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 8443, 
+                        convoys: 2,
+                        convoyNames: ["CRIMSON MOON OPENING CONVOY", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12"]
+                    },
+                    "2025-12": {
+                        kilometers: 45237,
+                        convoys: 14,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "ITVTC 60TH PUBLIC CONVOY", "KERALA LOGISTICS WEEKLY CONVOY #16", "Saffron Line CC - December Convoy", "Aura's Monthly Convoy December #9", "Nova Community Public Convoy #2", "NEXUS TRANSPORT DECEMBER CONVOY", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "UHVTC 2nd Anniversary Convoy", "HG Logistics 5th Year Anniversary", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY", "Tamil Pasanga VTC December 2025 Public Convoy"]
+                    },
+                      "2026-01": { 
+                        kilometers: 72229, 
+                        convoys: 17,
+                        convoyNames: ["NepPath Begins: Our First TruckerMP Journey !", "INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Kerala Roadrunners American Run", "Kerala RoadRunners Private Convoy - 17", "NEXON TRANSPORT JANUARY CONVOY", "Lirio Logistics Public Convoy # 1", "Hazmat Works with Pean Logistics", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "NEXON TRANSPORT JANUARY CONVOY", "Qicheng Logistics | 4st Anniversary Event", "ETS2MCG January Convoy", "TAMIL PASANGA VTC 2026 Kickstart Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13", "77th Republic Day of India", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "United in Diversity – A Stand Against Racism | Awareness"]
+                    },
+                    "2026-02": { 
+                        kilometers: 16055, 
+                        convoys: 12,
+                        convoyNames: ["ITVTC Valentine's Haul: Delivering Love public convoy #62", "KERALA LOGISTICS FEBRUARY CONVOY", "NepPath February Convoy #2 - Events - TruckersMP", "Ouka Logistics 1st Anniversary Event", "Kerala RoadRunners Private Convoy - 18", "Energy (ATS) February Convoy 2026", "Hearts on the Highway | INDIAN GROUP", "KERALA LOGISTICS_2026_Weekly Convoy#3", "Aventador's Birthday Party", "Kerala Roadrunners Hearts on Wheels", "TRANSCOM Opening Public Convoy #1", "NEXUS TRANSPORT 2ND ANNIVERSARY CONVOY"]
+                    },
+                }
+            },
+            {
+                id: 12,
+                name: "Sankeerth",
+                avatar: "data:image/webp;base64,UklGRsQCAABXRUJQVlA4ILgCAAAwKgCdASpUAQABPp1Oo0ylpKMiJTmICLATiWlu4WzzvmNwqR9ONJClBb1OdDTPhpZXFquGmfCSYr++FGtPqKELspvw3dr8f7lollcqNec6h3vKXXo3sKkke3IiaiEejqXrygoXsnfdE6JZRpWEyFGw0NPwNwlDRVAostUFTg94uGavzoo/3zKebdlquGl+YIfe4aW+buHthxOULi1AMo5XDcQVJCaC038ScgqcHnjwKQ9E9DKChm/1MFq0z4SaRNHkLJyGrYXD1dAQV2gIkFSdGyvXoJPcz4aehlBUkzL2NRl2EDhGkoH/8t9h5ksa7el4FScgokMLARPpoMFXsGcC+jqTlsVQuHHf9bJ95an6/D7qS+gHSEcKQr6Lnhpn5aIk0A5nvuLf6rhRPRfomKtI3KGBGLFMP9vBvzejqTbPU/2+XauB5Vzdq47vAzV+dDTPhFBo3VdnOp4AAP776iBGl3KtPeEUTB+To6BfAziBX46uljenj2+WoovQauiFV+GT6pTdiE3erzcBOVs1SPgo6xIeyNlxA4ooMB6Qfmy2R95ooYpotuVGP56BbItQEogmCskYacFoSCCwS35KX/bonAiYke+qWB2wfoJtcf1gdenVjmSCzNdCc2iEHobcigNZHZ9la6UAXlqGVIjatbHEOcnyQUB8iEt5oAIyQ1DzlTha0FycpT6BcgGCwF2z/JpBxuCy+JGopWEhieDAq7c5o6JOl+fGfi/vAG5Y7aOkIXgjHlZRgcW6Mcy9xAfx6NdybxX9mjwYISFsYL+i9Sm1IyO4UlurMWvYsWuMm/6d2lmgYMg3AZXQ8d41GLYkENaQqfuBrCSpkC4q+mBz5/QY2OPylDI0Ntpos45PN5D4x2DR1k6jLuYEDQ6OrXYOWLyMe2tZg0LMYIP9y3yuswJMDtg1n7UAAAA=",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 8443, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2025-12": { 
+                        kilometers: 12457, 
+                        convoys: 1,
+                        convoyNames: ["Kerala logistics weekly convoy 17"]
+                    },
+                    "2026-01": { 
+                        kilometers: 6236, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 13,
+                name: "ibrahimbadush",
+                avatar: "data:image/webp;base64,UklGRsQCAABXRUJQVlA4ILgCAAAwKgCdASpUAQABPp1Oo0ylpKMiJTmICLATiWlu4WzzvmNwqR9ONJClBb1OdDTPhpZXFquGmfCSYr++FGtPqKELspvw3dr8f7lollcqNec6h3vKXXo3sKkke3IiaiEejqXrygoXsnfdE6JZRpWEyFGw0NPwNwlDRVAostUFTg94uGavzoo/3zKebdlquGl+YIfe4aW+buHthxOULi1AMo5XDcQVJCaC038ScgqcHnjwKQ9E9DKChm/1MFq0z4SaRNHkLJyGrYXD1dAQV2gIkFSdGyvXoJPcz4aehlBUkzL2NRl2EDhGkoH/8t9h5ksa7el4FScgokMLARPpoMFXsGcC+jqTlsVQuHHf9bJ95an6/D7qS+gHSEcKQr6Lnhpn5aIk0A5nvuLf6rhRPRfomKtI3KGBGLFMP9vBvzejqTbPU/2+XauB5Vzdq47vAzV+dDTPhFBo3VdnOp4AAP776iBGl3KtPeEUTB+To6BfAziBX46uljenj2+WoovQauiFV+GT6pTdiE3erzcBOVs1SPgo6xIeyNlxA4ooMB6Qfmy2R95ooYpotuVGP56BbItQEogmCskYacFoSCCwS35KX/bonAiYke+qWB2wfoJtcf1gdenVjmSCzNdCc2iEHobcigNZHZ9la6UAXlqGVIjatbHEOcnyQUB8iEt5oAIyQ1DzlTha0FycpT6BcgGCwF2z/JpBxuCy+JGopWEhieDAq7c5o6JOl+fGfi/vAG5Y7aOkIXgjHlZRgcW6Mcy9xAfx6NdybxX9mjwYISFsYL+i9Sm1IyO4UlurMWvYsWuMm/6d2lmgYMg3AZXQ8d41GLYkENaQqfuBrCSpkC4q+mBz5/QY2OPylDI0Ntpos45PN5D4x2DR1k6jLuYEDQ6OrXYOWLyMe2tZg0LMYIP9y3yuswJMDtg1n7UAAAA=",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 6613, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+             {
+                id: 14,
+                name: "Zoro",
+                avatar: "https://cdn.discordapp.com/avatars/745893309624352788/4d6ca277c4d58b93b535e56579ffc3f1.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 6043, 
+                        convoys: 2,
+                        convoyNames: ["INDIAN CARRIERS NOVEMBER PUBLIC CONVOY 2025", "Kerala RoadRunners Private Convoy"]
+                    },
+                    "2025-12": {
+                        kilometers: 13071,
+                        convoys: 7,
+                        convoyNames: ["ITVTC 60TH PUBLIC CONVOY", "KERALA LOGISTICS WEEKLY CONVOY #16", "Kerala logistics weekly convoy 17", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY", "Tamil Pasanga VTC December 2025 Public Convoy"]
+                    },
+                    "2026-01": { 
+                        kilometers: 17322, 
+                        convoys: 7,
+                        convoyNames: ["INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Muguang Logistics 9th Public Convoy", "Hazmat Works with Pean Logistics", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "ETS2MCG January Convoy", "TAMIL PASANGA VTC 2026 Kickstart Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13"]
+                    },
+                    "2026-02": { 
+                        kilometers: 312, 
+                        convoys: 1,
+                        convoyNames: ["KERALA LOGISTICS_2026_Weekly Convoy#3"]
+                    },
+                }
+            },
+            {
+                id: 15,
+                name: "Popz",
+                avatar: "https://cdn.discordapp.com/avatars/1008578196175863891/bed139ed8fb4ba10f17f94a57fe55b31.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 5514, 
+                        convoys: 1,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE"]
+                    },
+                    "2025-12": {
+                        kilometers: 5401,
+                        convoys: 2,
+                        convoyNames: ["INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                    "2026-01": {
+                        kilometers: 2362,
+                        convoys: 1,
+                        convoyNames: ["77th Republic Day of India"]
+                    },
+                    "2026-02": { 
+                        kilometers: 1066, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 16,
+                name: "Jowin_YT",
+                avatar: "https://avatars.steamstatic.com/1ba901d45086703c2057a3e5cc3ddd53c4288268_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 5319, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-01": { 
+                        kilometers: 3073, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 17,
+                name: "Gamer Matrix",
+                avatar: "https://cdn.discordapp.com/avatars/835102937415155733/48620045d59d4042e8be7b05977581a9.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 4929, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2025-12": { 
+                        kilometers: 43496, 
+                        convoys: 2,
+                        convoyNames: ["KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY", "Tamil Pasanga VTC December 2025 Public Convoy"]
+                    },
+                    "2026-01": { 
+                        kilometers: 42458, 
+                        convoys: 4,
+                        convoyNames: ["NepPath Begins: Our First TruckerMP Journey !", "Kerala RoadRunners Private Convoy - 17", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "United in Diversity – A Stand Against Racism | Awareness"]
+                    },
+                    "2026-02": { 
+                        kilometers: 10376, 
+                        convoys: 3,
+                        convoyNames: ["KERALA LOGISTICS FEBRUARY CONVOY", "Kerala RoadRunners Private Convoy - 18", "FLEX LOGISTICS 1 Year Anniversary"]
+                    }
+                }
+            },
+            {
+                id: 18,
+                name: "Singam",
+                avatar: "https://cdn.discordapp.com/avatars/853563668901658683/2425e7f45d17231e6feeb160e357e701.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 4445, 
+                        convoys: 2,
+                        convoyNames: ["Kerala RoadRunners Private Convoy", "Saffron Line CC - Opening Convoy"]
+                    },
+                    "2025-12": {
+                        kilometers: 3831,
+                        convoys: 6,
+                        convoyNames: ["KERALA LOGISTICS WEEKLY CONVOY #16", "Aura's Monthly Convoy December #9", "Line of Energy 7 Year Anniversary", "INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025", "Kerala logistics weekly convoy 17", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                     "2026-01": { 
+                        kilometers: 7713, 
+                        convoys: 2,
+                        convoyNames: ["KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "77th Republic Day of India"]
+                    },
+                    "2026-02": { 
+                        kilometers: 10842, 
+                        convoys: 6,
+                        convoyNames: ["Kerala RoadRunners Private Convoy - 18", "Aventador's Birthday Party", "SFMPDL X Indian Carriers Partnership Convoy", "Kerala Roadrunners Hearts on Wheels", "TAMILNADU LOGISTICS celebrating 2 Years on the Road", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026"]
+                    }
+                }
+            },
+             {
+                id: 19,
+                name: "Magentezz",
+                avatar: "https://avatars.steamstatic.com/0da75550e2f0557d0c3aa5234e88a0e68a89fbf5_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 31171, 
+                        convoys: 3,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "Kerala RoadRunners Private Convoy", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12"]
+                    },
+                    "2025-12": {
+                        kilometers: 9178,
+                        convoys: 1,
+                        convoyNames: ["Line of Energy 7 Year Anniversary"]
+                },
+                     "2026-01": { 
+                        kilometers: 10954, 
+                        convoys: 1,
+                        convoyNames: ["Muguang Logistics 9th Public Convoy"]
+                    }
+                    }
+            },
+            {
+                id: 20,
+                name: "Ryan",
+                avatar: "https://cdn.discordapp.com/avatars/742059324259696650/23749cee9215edc0743190b1c6d694fe.png?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 4445, 
+                        convoys: 1,
+                        convoyNames: ["1st Anniversary- INDIAN GROUP"]
+                    },
+                    "2025-12": { 
+                        kilometers: 3592, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                     "2026-01": { 
+                        kilometers: 5913, 
+                        convoys: 2,
+                        convoyNames: ["KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "KERALA LOGISTICS_2026 EDITION - 1"]
+                    },
+                    "2026-02": { 
+                        kilometers: 1845, 
+                        convoys: 1,
+                        convoyNames: ["Hardik’s Birthday RoadFest – Powered by Indian Group"]
+                    },
+                }
+            },
+            {
+                id: 21,
+                name: "Kannan",
+                avatar: "https://cdn.discordapp.com/avatars/814719455426641980/f918acf510fa8ee5f2270298b44da066.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 3231, 
+                        convoys: 1,
+                        convoyNames: ["KERALA LOGISTICS WEEKLY CONVOY #14"]
+                    }
+                }
+            },
+             {
+                id: 22,
+                name: "Bruce",
+                avatar: "https://cdn.discordapp.com/avatars/814719455426641980/f918acf510fa8ee5f2270298b44da066.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 3231, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 23,
+                name: "Groode",
+                avatar: "https://cdn.discordapp.com/avatars/876003107513958401/f89772eae3bed10e6348795930f59850.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 2379, 
+                        convoys: 0,
+                        convoyNames: []
+                    }, 
+                    "2025-12": {
+                        kilometers: 5581,
+                        convoys: 2,
+                        convoyNames: ["Aura's Monthly Convoy December #9", "INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025"]
+                    },
+                    "2026-02": { 
+                        kilometers: 1,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 24,
+                name: "Marshell YT",
+                avatar: "https://cdn.discordapp.com/avatars/845568377057181717/6405ee4f591dc5f0f4666c08582a4dad.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1847, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                     "2025-12": { 
+                        kilometers: 1977, 
+                        convoys: 1,
+                        convoyNames: ["KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    }
+                }
+            },
+            {
+                id: 25,
+                name: "Doom Driver",
+                avatar: "https://cdn.discordapp.com/avatars/813381649530093619/93b9cfb1cb418f843124d56e6de6209c.png?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1724, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2025-12": {
+                        kilometers: 1004,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                     "2026-01": {
+                        kilometers: 5171,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+             {
+                id: 26,
+                name: "Faazy",
+                avatar: "https://cdn.discordapp.com/avatars/1301227993271636040/5ccfdf814df942e33919d8216f33856c.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1585, 
+                        convoys: 1,
+                        convoyNames: ["Kerala RoadRunners Private Convoy"]
+                    },
+                    "2025-12": {
+                        kilometers: 18729,
+                        convoys: 3,
+                        convoyNames: ["MALKOCOGLU LOGISTICS DECEMBER CONVOY #9", "Line of Energy 7 Year Anniversary", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                     "2026-01": { 
+                        kilometers: 57070, 
+                        convoys: 9,
+                        convoyNames: ["KERALA ROADRUNNERS JANUARY MONTHLY CONVOY", "Sentinel Express – Frozen Route Convoy", "Güven Logistics 4th Anniversary Convoy", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "Royal Swag | Opening Convoy", "Saints Logistics | Opening Convoy", "Navy Cargo Re-Opening Convoy", "United in Diversity – A Stand Against Racism | Awareness"]
+                    },
+                    "2026-02": { 
+                        kilometers: 8722, 
+                        convoys: 6,
+                        convoyNames: ["SEA Logistic Reopening Convoy", "Kerala RoadRunners Private Convoy - 18", "KERALA LOGISTICS_2026_Weekly Convoy#3", "FLEX LOGISTICS 1 Year Anniversary", "TAMILNADU LOGISTICS celebrating 2 Years on the Road", "TRANSCOM Opening Public Convoy #1"]
+                    }
+                }
+            },
+             {
+                id: 27,
+                name: "Doom Driver",
+                avatar: "https://avatars.steamstatic.com/48b7dd4a46bb7fa11ad9f35fcb9a6e9a581b387b_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1127, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 28,
+                name: "Arjit Gaming",
+                avatar: "https://avatars.steamstatic.com/e003188fc607f39889736b0be2a0664210ef80bc_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1108, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2025-12": { 
+                        kilometers: 6132, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+             {
+                id: 29,
+                name: "Godsown",
+                avatar: "https://avatars.steamstatic.com/819b183b544e0ec388db9698a164d7d1caf35f84_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1031, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2025-12": { 
+                        kilometers: 3254, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-01": { 
+                        kilometers: 4145, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                
+                }
+            },
+            {
+                id: 30,
+                name: "Monuz",
+                avatar: "https://cdn.discordapp.com/avatars/1118426458281488385/20a0a6b3ab817417a23e48052a7f0bc6.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 1018, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2025-12": { 
+                        kilometers: 2299, 
+                        convoys: 1,
+                        convoyNames: ["TAMILNADU LOGISTICS celebrates Christmas with Homies"]
+                    }
+                }
+            },
+            {
+                id: 31,
+                name: "Darkjodd",
+                avatar: "https://cdn.discordapp.com/avatars/873509086828855316/e006da0c190b1c9da1fd4abe163eb870.png?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 864, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 32,
+                name: "Infinity Stones",
+                avatar: "https://avatars.steamstatic.com/28cffd35a7e5b1e436bed35a9e95c8a52970d680_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 515, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+              {
+                id: 33,
+                name: "K.L",
+                avatar: "https://avatars.steamstatic.com/6558f50464796ea069dd7dd3d27fe681e66610fd_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 515, 
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+           
+            {
+                id: 34,
+                name: "sanjaykumargg7010",
+                avatar: "https://avatars.steamstatic.com/8edcd44d2828b5944ab81bb79fb46314b7560fd6_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 352,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 35,
+                name: "Raihan",
+                avatar: "https://avatars.steamstatic.com/f0b0112497f5e6b5e7cae8554071c0c3a43c9588_full.jpg",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 343,
+                        convoys: 1,
+                        convoyNames: ["1st Anniversary- INDIAN GROUP"]
+                    },
+                    "2025-12": {
+                        kilometers: 813,
+                        convoys: 1,
+                        convoyNames: ["MALKOCOGLU LOGISTICS DECEMBER CONVOY #9"]
+                    }
+                }
+            },
+             {
+                id: 36,
+                name: "Yoko_YT",
+                avatar: "https://cdn.discordapp.com/avatars/853618980962959390/86e5b06fe450adc4a1ace16b778b2392.png?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 5,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2025-12": { 
+                        kilometers: 33,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-02": { 
+                        kilometers: 7,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 37,
+                name: "Kiran sir",
+                avatar: "https://cdn.discordapp.com/avatars/1101141046882218136/d027f81173b939bd5428bbe976734a63.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE"]
+                    }
+                }
+            },
+             {
+                id: 38,
+                name: "ANTLERMAN",
+                avatar: "https://cdn.discordapp.com/avatars/1329669541805948983/138ea91d5bfa3033d1081882f2ce3f86.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 0,
+                        convoys: 3,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE", "CRIMSON MOON OPENING CONVOY", "INDIAN CARRIERS NOVEMBER PUBLIC CONVOY 2025"]
+                    },
+                    "2025-12": {
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["Aura's Monthly Convoy December #9"]
+                    },
+                     "2026-01": { 
+                        kilometers: 0, 
+                        convoys: 1,
+                        convoyNames: ["Kerala Roadrunners American Run"]
+                    }
+                }
+            },
+            {
+                id: 39,
+                name: "PODI SHIBU",
+                avatar: "https://cdn.discordapp.com/avatars/1335296766362386572/a647877133d5f6acb91309f4c4016300.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 0,
+                        convoys: 2,
+                        convoyNames: ["Kerala RoadRunners Private Convoy", "TAMILNADU LOGISTICS NOVEMBER PUBLIC EVENT # 12"]
+                    }
+                }
+            },
+            {
+                id: 40,
+                name: "JD",
+                avatar: "https://cdn.discordapp.com/avatars/1004423579020046347/3e89b025092066b889b39e52de8cabc0.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 0,
+                        convoys: 2,
+                        convoyNames: ["Saffron Line CC - Opening Convoy", "1st Anniversary- INDIAN GROUP"]
+                    }
+                }
+            },
+             {
+                id: 41,
+                name: "BROOK",
+                avatar: "https://cdn.discordapp.com/embed/avatars/0.png?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["Saffron Line CC - Opening Convoy"]
+                    },
+                    "2025-12": { 
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                    "2026-01": { 
+                        kilometers: 0, 
+                        convoys: 1,
+                        convoyNames: ["INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026"]
+                    }
+                }
+            },
+            {
+                id: 42,
+                name: "Fate",
+                avatar: "https://cdn.discordapp.com/avatars/871435224234471494/ccc488d4827a7e9567b096fffddd7b97.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["KERALA LOGISTICS WEEKLY CONVOY #14"]
+                    },
+                    "2025-12": {
+                        kilometers: 14820,
+                        convoys: 8,
+                        convoyNames: ["Muguang Logistics Skoda Theme Public Convoy", "MALKOCOGLU LOGISTICS DECEMBER CONVOY #9", "Saffron Line CC - December Convoy", "Line of Energy 7 Year Anniversary", "INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025", "Kerala logistics weekly convoy 17", "Nova Community Public Convoy #2", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                    "2026-01": { 
+                        kilometers: 13038, 
+                        convoys: 4,
+                        convoyNames: ["INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Kerala Roadrunners American Run", "Kerala RoadRunners Private Convoy - 17", "KERALA ROADRUNNERS JANUARY MONTHLY CONVOY"]
+                    },
+                    "2026-02": { 
+                        kilometers: 0, 
+                        convoys: 1,
+                        convoyNames: ["Kerala Roadrunners Hearts on Wheels"]
+                    }
+                }
+            },
+            {
+                id: 43,
+                name: "PSYCHOCULPRIT",
+                avatar: "https://cdn.discordapp.com/avatars/980487185797120081/1e6dd008c60cd2073298a23568b5e770.webp?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 9933,
+                        convoys: 1,
+                        convoyNames: ["Saffron Line CC - December Convoy"]
+                    },
+                    "2026-01": { 
+                        kilometers: 982,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 44,
+                name: "Robz Gaming",
+                avatar: "https://cdn.discordapp.com/avatars/1259152118477094985/5f735f605f144b7f7b29e03b2e381245.webp?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 0,
+                        convoys: 8,
+                        convoyNames: ["Aura's Monthly Convoy December #9", "Line of Energy 7 Year Anniversary", "INDIAN CARRIERS DECEMBER PUBLIC CONVOY 2025", "Kerala logistics weekly convoy 17", "TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    },
+                    "2026-01": { 
+                        kilometers: 34572, 
+                        convoys: 4,
+                        convoyNames: ["INDIAN CARRIERS JANUARY PUBLIC CONVOY 2026", "Kerala Roadrunners American Run", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "RSL 10 Years Anniversary"]
+                    },
+                    "2026-02": { 
+                        kilometers: 29795, 
+                        convoys: 6,
+                        convoyNames: ["KERALA LOGISTICS FEBRUARY CONVOY", "NepPath February Convoy #2 - Events - TruckersMP", "SEA Logistic Reopening Convoy", "SFMPDL X Indian Carriers Partnership Convoy", "FLEX LOGISTICS 1 Year Anniversary", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026"]
+                    }
+                }
+            },
+            {
+                id: 45,
+                name: "Gangu Bhai",
+                avatar: "https://cdn.discordapp.com/avatars/671366127703556106/151b494636f47812751e1b607df1fd7c.webp?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 4762,
+                        convoys: 3,
+                        convoyNames: ["TAMILNADU LOGISTICS celebrates Christmas with Homies", "KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY", "Tamil Pasanga VTC December 2025 Public Convoy"]
+                    },
+                    "2026-01": { 
+                        kilometers: 40687,
+                        convoys: 5,
+                        convoyNames: ["Saints Logistics | Opening Convoy", "NEXON TRANSPORT JANUARY CONVOY", "Navy Cargo Re-Opening Convoy", "Qicheng Logistics | 4st Anniversary Event", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy"]
+                    },
+                    "2026-02": { 
+                        kilometers: 9760, 
+                        convoys: 7,
+                        convoyNames: ["ITVTC Valentine's Haul: Delivering Love public convoy #62", "KERALA LOGISTICS FEBRUARY CONVOY", "SEA Logistic Reopening Convoy", "Ouka Logistics 1st Anniversary Event", "Kerala RoadRunners Private Convoy - 18", "Hearts on the Highway | INDIAN GROUP", "KERALA LOGISTICS_2026_Weekly Convoy#3"]
+                    },
+                }
+            },
+            {
+                id: 46,
+                name: "X7i",
+                avatar: "https://cdn.discordapp.com/avatars/719738357785034814/a_b6107ba59a86a2fa1e0c07a895a348ca.gif?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 10945,
+                        convoys: 1,
+                        convoyNames: ["KERALA LOGISTICS WEEKLY CONVOY #18"]
+                    },
+                    "2026-01": { 
+                        kilometers: 25144, 
+                        convoys: 6,
+                        convoyNames: ["NepPath Begins: Our First TruckerMP Journey !", "Lirio Logistics Public Convoy # 1", "Güven Logistics 4th Anniversary Convoy", "Hazmat Works with Pean Logistics", "KERALA LOGISTICS_2026 EDITION - 1", "Saints Logistics | Opening Convoy", "NEXON TRANSPORT JANUARY CONVOY"]
+                    }
+                }
+            },
+            {
+                id: 47,
+                name: "Zyrex",
+                avatar: "https://cdn.discordapp.com/avatars/1262729253082894350/698ecd2b5fa9f54811a8b9c3790ab1fa.png?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 0,
+                        convoys: 2,
+                        convoyNames: ["KERALA LOGISTICS WEEKLY CONVOY #18", "Peanut's Birthday with Pean Logistics"]
+                    },
+                     "2026-01": { 
+                        kilometers: 0, 
+                        convoys: 5,
+                        convoyNames: ["Güven Logistics 4th Anniversary Convoy", "TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "KERALA LOGISTICS_2026 EDITION - 1", "Saints Logistics | Opening Convoy", "NEXON TRANSPORT JANUARY CONVOY"]
+                    }
+                }
+            },
+            {
+                id: 48,
+                name: "PEETHAPARAN",
+                avatar: "https://cdn.discordapp.com/avatars/1267825639046774805/1e1ebdae7bf860db952eaefd69667a6b.webp?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["KERALA ROADRUNNERS DECEMBER MONTHLY CONVOY"]
+                    }
+                }
+            },
+            {
+                id: 49,
+                name: "kinnanz34",
+                avatar: "https://avatars.steamstatic.com/7c0ef77387197a529dea228ceb0f5acaa68ce57f_full.jpg",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 10176,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 50,
+                name: "Frozen",
+                avatar: "https://avatars.steamstatic.com/a132fe565a292d9a4edaba3bc6e296759fbe5a41_full.jpg",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 4640,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                     "2026-01": { 
+                        kilometers: 9473, 
+                        convoys: 2,
+                        convoyNames: ["KERALA ROADRUNNERS JANUARY MONTHLY CONVOY"]
+                    }
+                }
+            },
+            {
+                id: 51,
+                name: "djgamer",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 4347,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+             {
+                id: 52,
+                name: "Villu",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 3492,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-01": { 
+                        kilometers: 2401,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 53,
+                name: "Villu",
+                avatar: "https://avatars.steamstatic.com/a8f09f133b6fef1cf0e2b8a6072f19fd1329243e_full.jpg",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 3434,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 54,
+                name: "Backura",
+                avatar: "https://avatars.steamstatic.com/a29a2abcbb9465d7551c72168792b6555d788c96_full.jpg",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 2896,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-01": { 
+                        kilometers: 1415,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                     "2026-02": { 
+                        kilometers: 612,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 55,
+                name: "prathyushcc2004",
+                avatar: "https://avatars.steamstatic.com/bc66db498575691eeac23127cccd384cae5c4704_full.jpg",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 1211,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+             {
+                id: 56,
+                name: "CHINGAM XD",
+                avatar: "https://cdn.discordapp.com/avatars/756062970311606313/cd8f75bc5b388fa645d8e589e79f80da.webp?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 1045,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 58,
+                name: "PEETHAMPARAN PP",
+                avatar: "https://cdn.discordapp.com/avatars/1267825639046774805/1e1ebdae7bf860db952eaefd69667a6b.webp?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 724,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 59,
+                name: "Julia Chan",
+                avatar: "https://cdn.discordapp.com/avatars/909793148518154303/ea67ef46b00dac6aa50ab13952b9b285.png?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 556,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 60,
+                name: "Neo",
+                avatar: "https://cdn.discordapp.com/avatars/577708437409103882/c2afe0019dac650273e9a9d9a21a3d80.png?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 379,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                     "2026-01": { 
+                        kilometers: 863, 
+                        convoys: 2,
+                        convoyNames: ["Muguang Logistics 9th Public Convoy", "Kerala RoadRunners Private Convoy - 17"]
+                    }
+                }
+            },
+            {
+                id: 61,
+                name: "Naveen",
+                avatar: "https://cdn.discordapp.com/avatars/1098631111443222628/30f468826205ee110a0d0350aa74d5c7.webp?size=512",
+                monthlyData: {
+                    "2025-12": { 
+                        kilometers: 361,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 62,
+                name: "Driving Juice",
+                avatar: "https://cdn.discordapp.com/avatars/692430736845963276/de3c7a1523c853d5b661e6307a8f17c2.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["KERALA ROADRUNNERS JANUARY MONTHLY CONVOY"]
+                    }
+                }
+            },
+            {
+                id: 63,
+                name: "Rooster",
+                avatar: "https://cdn.discordapp.com/avatars/835836402724896815/d834b445da50cb04359e503cbc0a3c56.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 0,
+                        convoys: 2,
+                        convoyNames: ["NEXON TRANSPORT JANUARY CONVOY", "KERALA LOGISTICS_2026 EDITION - 1"]
+                    }
+                }
+            },
+            {
+                id: 64,
+                name: "Stray",
+                avatar: "https://cdn.discordapp.com/avatars/842947652206460948/330fea7830025b0aeaaa75cca6012845.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 7438,
+                        convoys: 3,
+                        convoyNames: ["TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "Saints Logistics | Opening Convoy", "NEXON TRANSPORT JANUARY CONVOY"]
+                    },
+                    "2026-02": { 
+                        kilometers: 1611, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 65,
+                name: "Sooraj",
+                avatar: "https://cdn.discordapp.com/avatars/804648283343028234/a26827e891662637892c203d6af6f213.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 0,
+                        convoys: 2,
+                        convoyNames: ["TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY", "Saints Logistics | Opening Convoy"]
+                    }
+                }
+            },
+            {
+                id: 66,
+                name: "Sugar",
+                avatar: "https://cdn.discordapp.com/avatars/711054939048247316/6756af9ab11da6d63e7f06763335d37c.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 0,
+                        convoys: 1,
+                        convoyNames: ["TRUCKERSHUB 3rd YEAR ANNIVERSARY X ITVTC CONVOY"]
+                    }
+                }
+            },
+            {
+                id: 67,
+                name: "Sandy",
+                avatar: "https://cdn.discordapp.com/avatars/742958785743683676/67c643266b25fb11a57a96a7278c5ac2.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 5111,
+                        convoys: 1,
+                        convoyNames: ["Navy Cargo Re-Opening Convoy"]
+                    }
+                }
+            },
+            {
+                id: 68,
+                name: "Shak",
+                avatar: "https://cdn.discordapp.com/embed/avatars/0.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 3529,
+                        convoys: 6,
+                        convoyNames: ["Navy Cargo Re-Opening Convoy", "ETS2MCG January Convoy", "TAMILNADU LOGISTICS JANUARY PUBLIC EVENT #13", "SFM Purple Dragons Logistics 1 Year Anniversary Convoy", "RSL 10 Years Anniversary", "United in Diversity – A Stand Against Racism | Awareness"]
+                    },
+                    "2026-02": { 
+                        kilometers: 6121, 
+                        convoys: 7,
+                        convoyNames: ["ITVTC Valentine's Haul: Delivering Love public convoy #62", "KERALA LOGISTICS FEBRUARY CONVOY", "Kerala RoadRunners Private Convoy - 18", "Hearts on the Highway | INDIAN GROUP", "KERALA LOGISTICS_2026_Weekly Convoy#3", "Kerala Roadrunners Hearts on Wheels", "INDIAN CARRIERS FEBRUARY PUBLIC CONVOY 2026"]
+                    },
+                }
+            },
+            {
+                id: 69,
+                name: "Abin Kukku",
+                avatar: "https://i.postimg.cc/Kz9QQBsD/f9053445bb594f0bc63813ff17a6e726.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 2444,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-02": { 
+                        kilometers: 35292,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 70,
+                name: "shijadss3",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 9276,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 71,
+                name: "PsYcHo",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 6658,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-02": { 
+                        kilometers: 822,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 72,
+                name: "Los Brutozz",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 2056,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 73,
+                name: "Adiadith",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 1223,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 74,
+                name: "Gundu Gamer",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 1143,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 75,
+                name: "Sarbath Shameer",
+                avatar: "https://cdn.discordapp.com/avatars/1168845932587130890/3cdc395e5226c66bcf805a46d80f17a3.png?size=512",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 1060,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-02": { 
+                        kilometers: 1563, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+{
+                id: 76,
+                name: "nj_abhi",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 708,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-02": { 
+                        kilometers: 17,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 77,
+                name: "jerin t r",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 660,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+            {
+                id: 78,
+                name: "TGS",
+                avatar: "https://avatars.steamstatic.com/bd7536044b4cfb0220659793dcd19253006a8cd3_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 643,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                    "2026-02": { 
+                        kilometers: 8,
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 79,
+                name: "Gwad EXE",
+                avatar: "https://avatars.steamstatic.com/1518ee4bd6d4d7a37ff4596a66ec96d298b3de4a_full.jpg",
+                monthlyData: {
+                    "2026-01": { 
+                        kilometers: 226,
+                        convoys: 0,
+                        convoyNames: []
+                    }
+                }
+            },
+             {
+                id: 80,
+                name: "Cyber",
+                avatar: "https://cdn.discordapp.com/avatars/1256325630123835455/f64a5c2dce22406632d01bd2db366071.webp?size=512",
+                monthlyData: {
+                    "2025-11": { 
+                        kilometers: 373, 
+                        convoys: 1,
+                        convoyNames: ["KERALA ROADRUNNERS NOVEMBER VOYAGE"]
+                    },
+                    "2025-12": {
+                        kilometers: 5381,
+                        convoys: 5,
+                        convoyNames: ["MALKOCOGLU LOGISTICS DECEMBER CONVOY #9", "Saffron Line CC - December Convoy", "Aura's Monthly Convoy December #9", "Kerala logistics weekly convoy 17", "Nova Community Public Convoy #2"]
+                    }
+                }
+            },
+            {
+                id: 81,
+                name: "Nicname",
+                avatar: "https://avatars.steamstatic.com/9cc26aaa99f0018fd25c896f4f9dbce7fa78ee76_full.jpg",
+                monthlyData: {
+                    "2026-02": { 
+                        kilometers: 2528, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 82,
+                name: "Absolute Doom",
+                avatar: "https://avatars.steamstatic.com/d3eb39d70f297a4191bea908797cd7972a77ad86_full.jpg",
+                monthlyData: {
+                    "2026-02": { 
+                        kilometers: 1462, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+
+            {
+                id: 83,
+                name: "RiPCROZ",
+                avatar: "https://avatars.steamstatic.com/5d7aceabfd1d02defc312135334964a9dc953328_full.jpg",
+                monthlyData: {
+                    "2026-02": { 
+                        kilometers: 944, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 84,
+                name: "shiadss",
+                avatar: "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+                monthlyData: {
+                    "2026-02": { 
+                        kilometers: 801, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 85,
+                name: "Finn",
+                avatar: "https://avatars.steamstatic.com/d973e21adcab6ea8f6beca2b2b67b60134b7c7c1_full.jpg",
+                monthlyData: {
+                    "2026-02": { 
+                        kilometers: 652, 
+                        convoys: 0,
+                        convoyNames: []
+                    },
+                }
+            },
+            {
+                id: 86,
+                name: "Sank",
+                avatar: "https://cdn.discordapp.com/avatars/1114592137657454633/157e517cdbf371a47aaead44675714a3.png?size=512",
+                monthlyData: {
+                    "2026-02": { 
+                        kilometers: 0, 
+                        convoys: 1,
+                        convoyNames: ["SFMPDL X Indian Carriers Partnership Convoy"]
+                    },
+                }
+            },
+
+
+        ];
+
+        // Calculate points for a driver in a specific month
+        function calculatePoints(kilometers, convoys) {
+            return (kilometers * 0.001) + (convoys * 8);
+        }
+
+        // Format number with commas
+        function formatNumber(num) {
+            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // Generate convoy list HTML
+        function generateConvoyListHTML(convoyNames) {
+            if (!convoyNames || convoyNames.length === 0) {
+                return '<em>No convoy data available</em>';
+            }
+            
+            let html = '<ul class="convoy-list">';
+            convoyNames.forEach((convoy, index) => {
+                html += `<li><span class="convoy-badge" data-event="${convoy}">${index + 1}</span> ${convoy}</li>`;
+            });
+            html += '</ul>';
+            return html;
+        }
+
+        // Generate driver cards for the main page
+        function generateDriverCards(month) {
+            const rankingContainer = document.getElementById('ranking-container');
+            rankingContainer.innerHTML = '';
+            
+            // Calculate points for each driver for the selected month
+            const driversWithPoints = driversData.map(driver => {
+                const monthData = driver.monthlyData[month] || { kilometers: 0, convoys: 0, convoyNames: [] };
+                const points = calculatePoints(monthData.kilometers, monthData.convoys);
+                return {
+                    ...driver,
+                    monthData,
+                    points
+                };
+            });
+            
+            // Sort drivers by points (descending)
+            driversWithPoints.sort((a, b) => b.points - a.points);
+            
+            // Generate cards
+            driversWithPoints.forEach((driver, index) => {
+                const rank = index + 1;
+                const card = document.createElement('div');
+                card.className = 'driver-card';
+                card.innerHTML = `
+                    <div class="rank-badge">${rank}</div>
+                    <div class="driver-card-header">
+                        <img src="${driver.avatar}" alt="${driver.name}" class="driver-avatar">
+                        <div class="driver-info">
+                            <div class="driver-name">${driver.name}</div>
+                            <div class="driver-id">Driver ID: ${driver.id.toString().padStart(3, '0')}</div>
+                        </div>
+                    </div>
+                    <div class="driver-stats">
+                        <div class="stat">
+                            <div class="stat-value">${formatNumber(driver.points)}</div>
+                            <div class="stat-label">Points</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${driver.monthData.kilometers.toLocaleString()}</div>
+                            <div class="stat-label">Kilometers</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">${driver.monthData.convoys}</div>
+                            <div class="stat-label">Convoys</div>
+                        </div>
+                    </div>
+                    <div class="driver-card-footer">
+                        <div>
+                            <div class="stat-label">Month Rank</div>
+                            <div class="total-points">#${rank}</div>
+                        </div>
+                        <button class="view-details-btn" data-id="${driver.id}">View Details</button>
+                    </div>
+                `;
+                
+                rankingContainer.appendChild(card);
+            });
+            
+            // Add event listeners to view details buttons
+            document.querySelectorAll('.view-details-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const driverId = parseInt(this.getAttribute('data-id'));
+                    showDriverDetails(driverId);
+                });
+            });
+        }
+
+        // Show driver details page
+        function showDriverDetails(driverId) {
+            const driver = driversData.find(d => d.id === driverId);
+            if (!driver) return;
+            
+            // Calculate totals
+            let totalPoints = 0;
+            let totalKilometers = 0;
+            let totalConvoys = 0;
+            const months = Object.keys(driver.monthlyData);
+            
+            months.forEach(month => {
+                const monthData = driver.monthlyData[month];
+                totalPoints += calculatePoints(monthData.kilometers, monthData.convoys);
+                totalKilometers += monthData.kilometers;
+                totalConvoys += monthData.convoys;
+            });
+            
+            // Update details page
+            document.getElementById('details-avatar').src = driver.avatar;
+            document.getElementById('details-name').textContent = driver.name;
+            document.getElementById('details-id').textContent = `Driver ID: ${driver.id.toString().padStart(3, '0')}`;
+            document.getElementById('details-total-points').textContent = formatNumber(totalPoints);
+            document.getElementById('details-total-km').textContent = totalKilometers.toLocaleString();
+            document.getElementById('details-total-convoys').textContent = totalConvoys;
+            document.getElementById('details-months').textContent = months.length;
+            
+            // Generate monthly data tables
+            const monthlyDataContainer = document.getElementById('monthly-data');
+            monthlyDataContainer.innerHTML = '<h3>Monthly Performance</h3>';
+            
+            // Sort months chronologically (newest first)
+            const sortedMonths = months.sort().reverse();
+            
+            sortedMonths.forEach(month => {
+                const monthData = driver.monthlyData[month];
+                const points = calculatePoints(monthData.kilometers, monthData.convoys);
+                const monthName = new Date(month + '-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                
+                const table = document.createElement('table');
+                table.className = 'month-table';
+                table.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th colspan="4">${monthName}</th>
+                        </tr>
+                        <tr>
+                            <th>Kilometers Driven</th>
+                            <th>Convoys Attended</th>
+                            <th>Points</th>
+                            <th>Formula Calculation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${monthData.kilometers.toLocaleString()} km</td>
+                            <td>${monthData.convoys}</td>
+                            <td><strong>${formatNumber(points)}</strong></td>
+                            <td>(${monthData.kilometers} × 0.001) + (${monthData.convoys} × 8) = ${formatNumber(points)}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <strong>Convoys Attended:</strong>
+                                ${generateConvoyListHTML(monthData.convoyNames)}
+                            </td>
+                        </tr>
+                    </tbody>
+                `;
+                
+                monthlyDataContainer.appendChild(table);
+            });
+            
+            // Switch to details page
+            showPage('details');
+            
+            // Add event listeners to convoy badges
+            document.querySelectorAll('.convoy-badge').forEach(badge => {
+                badge.addEventListener('click', function() {
+                    const eventName = this.getAttribute('data-event');
+                    showEventDrivers(eventName);
+                });
+            });
+        }
+
+        // Generate events table grouped by month
+        function generateEventsTable() {
+            const eventsTableBody = document.getElementById('events-table-body');
+            eventsTableBody.innerHTML = '';
+            
+            // Get all months from drivers data
+            const allMonths = new Set();
+            driversData.forEach(driver => {
+                Object.keys(driver.monthlyData).forEach(month => {
+                    allMonths.add(month);
+                });
+            });
+            
+            // Sort months chronologically (newest first)
+            const sortedMonths = Array.from(allMonths).sort().reverse();
+            
+            // For each month, collect events
+            sortedMonths.forEach(month => {
+                const monthName = new Date(month + '-01').toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                
+                // Add month header row
+                const monthHeaderRow = document.createElement('tr');
+                monthHeaderRow.className = 'month-header-row';
+                monthHeaderRow.innerHTML = `
+                    <td colspan="2">${monthName}</td>
+                `;
+                eventsTableBody.appendChild(monthHeaderRow);
+                
+                // Collect events for this month
+                const eventsMap = new Map();
+                
+                driversData.forEach(driver => {
+                    const monthData = driver.monthlyData[month];
+                    if (monthData && monthData.convoyNames && monthData.convoyNames.length > 0) {
+                        monthData.convoyNames.forEach(convoyName => {
+                            if (!eventsMap.has(convoyName)) {
+                                eventsMap.set(convoyName, {
+                                    name: convoyName,
+                                    drivers: []
+                                });
+                            }
+                            
+                            const event = eventsMap.get(convoyName);
+                            
+                            // Add driver if not already added
+                            if (!event.drivers.some(d => d.id === driver.id)) {
+                                event.drivers.push({
+                                    id: driver.id,
+                                    name: driver.name,
+                                    avatar: driver.avatar
+                                });
+                            }
+                        });
+                    }
+                });
+                
+                // Convert to array and sort by name
+                const eventsArray = Array.from(eventsMap.values());
+                eventsArray.sort((a, b) => a.name.localeCompare(b.name));
+                
+                // Add event rows for this month
+                eventsArray.forEach(event => {
+                    const row = document.createElement('tr');
+                    row.className = 'event-row';
+                    row.innerHTML = `
+                        <td><strong>${event.name}</strong></td>
+                        <td>${event.drivers.length} drivers</td>
+                    `;
+                    
+                    // Make the row clickable
+                    row.addEventListener('click', () => {
+                        showEventDrivers(event.name, event.drivers);
+                    });
+                    
+                    eventsTableBody.appendChild(row);
+                });
+            });
+        }
+
+        // Show event drivers
+        function showEventDrivers(eventName, drivers) {
+            // Update title
+            document.getElementById('selected-event-title').textContent = `Drivers who attended: ${eventName}`;
+            
+            // Update drivers grid
+            const driversGrid = document.getElementById('event-drivers-grid');
+            driversGrid.innerHTML = '';
+            
+            // Sort drivers by name
+            drivers.sort((a, b) => a.name.localeCompare(b.name));
+            
+            // Create driver items
+            drivers.forEach(driver => {
+                const driverItem = document.createElement('div');
+                driverItem.className = 'event-driver-item';
+                driverItem.innerHTML = `
+                    <img src="${driver.avatar}" alt="${driver.name}" class="event-driver-avatar">
+                    <div class="event-driver-name">${driver.name}</div>
+                `;
+                
+                driverItem.addEventListener('click', () => {
+                    showDriverDetails(driver.id);
+                });
+                
+                driversGrid.appendChild(driverItem);
+            });
+            
+            // Show the drivers section
+            document.getElementById('event-drivers-section').style.display = 'block';
+            
+            // Scroll to the drivers section
+            document.getElementById('event-drivers-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show a specific page
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show selected page
+            document.getElementById(`${pageName}-page`).style.display = 'block';
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            if (pageName === 'main' || pageName === 'details') {
+                document.querySelector('.nav-tab[data-page="main"]').classList.add('active');
+            } else if (pageName === 'events') {
+                document.querySelector('.nav-tab[data-page="events"]').classList.add('active');
+                // Hide event drivers section when switching to events page
+                document.getElementById('event-drivers-section').style.display = 'none';
+            } else if (pageName === 'hall-of-fame') {
+                document.querySelector('.nav-tab[data-page="hall-of-fame"]').classList.add('active');
+            } else if (pageName === 'overall') {
+                document.querySelector('.nav-tab[data-page="overall"]').classList.add('active');
+            }
+        }
+
+        // Initialize Hall of Fame event listeners
+        function initHallOfFame() {
+            // Add event listeners to Hall of Fame back button
+            document.getElementById('back-to-main-from-hof').addEventListener('click', function() {
+                showPage('main');
+            });
+            
+            // Add event listeners to Hall of Fame driver cards
+            document.querySelectorAll('.hof-top-winner, .hof-elite-winner').forEach(card => {
+                card.addEventListener('click', function() {
+                    const driverId = parseInt(this.getAttribute('data-driver-id'));
+                    if (driverId && !isNaN(driverId)) {
+                        showDriverDetails(driverId);
+                    }
+                });
+            });
+        }
+
+        // Initialize the application
+        function init() {
+            const monthSelect = document.getElementById('month-select');
+            
+            // Set default month to February 2026
+            monthSelect.value = '2026-02';
+            
+            // Generate initial driver cards
+            generateDriverCards(monthSelect.value);
+            
+            // Generate initial events table
+            generateEventsTable();
+            
+            // Add event listener for month change on main page
+            monthSelect.addEventListener('change', function() {
+                generateDriverCards(this.value);
+            });
+            
+            // Add event listeners for back buttons
+            document.getElementById('back-to-main').addEventListener('click', function() {
+                showPage('main');
+            });
+            
+            document.getElementById('back-to-main-from-events').addEventListener('click', function() {
+                showPage('main');
+            });
+            
+            // Add event listener for overall rankings back button
+            document.getElementById('back-to-main-from-overall').addEventListener('click', function() {
+                showPage('main');
+            });
+            
+            // Add event listeners for overall rankings controls
+            document.getElementById('sort-by').addEventListener('change', function() {
+                generateOverallRankings(
+                    this.value,
+                    document.getElementById('time-period').value,
+                    document.getElementById('sort-order').value
+                );
+            });
+            
+            document.getElementById('time-period').addEventListener('change', function() {
+                generateOverallRankings(
+                    document.getElementById('sort-by').value,
+                    this.value,
+                    document.getElementById('sort-order').value
+                );
+            });
+            
+            document.getElementById('sort-order').addEventListener('change', function() {
+                generateOverallRankings(
+                    document.getElementById('sort-by').value,
+                    document.getElementById('time-period').value,
+                    this.value
+                );
+            });
+            
+            // Add event listeners for navigation tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const page = this.getAttribute('data-page');
+                    showPage(page);
+                    
+                    // Initialize Hall of Fame when switching to that page
+                    if (page === 'hall-of-fame') {
+                        initHallOfFame();
+                    }
+                });
+            });
+            
+            // Initialize Hall of Fame
+            initHallOfFame();
+            
+            // Generate initial overall rankings
+            generateOverallRankings();
+            
+            // Show main page by default
+            showPage('main');
+        }
+
+        // Calculate overall statistics for a driver
+        function calculateDriverOverallStats(driver, timePeriod = 'lifetime') {
+            let totalPoints = 0;
+            let totalKilometers = 0;
+            let totalConvoys = 0;
+            
+            Object.entries(driver.monthlyData).forEach(([month, monthData]) => {
+                // Filter by time period
+                if (timePeriod === 'lifetime' || 
+                    month.startsWith(timePeriod) || 
+                    (timePeriod.length === 4 && month.startsWith(timePeriod))) {
+                    
+                    totalPoints += calculatePoints(monthData.kilometers, monthData.convoys);
+                    totalKilometers += monthData.kilometers;
+                    totalConvoys += monthData.convoys;
+                }
+            });
+            
+            return {
+                id: driver.id,
+                name: driver.name,
+                avatar: driver.avatar,
+                totalPoints: parseFloat(totalPoints.toFixed(2)),
+                totalKilometers,
+                totalConvoys
+            };
+        }
+
+        // Generate overall rankings table
+        function generateOverallRankings(sortBy = 'points', timePeriod = 'lifetime', sortOrder = 'desc') {
+            // Calculate stats for all drivers
+            const driversStats = driversData.map(driver => 
+                calculateDriverOverallStats(driver, timePeriod)
+            );
+            
+            // Sort drivers based on selected criteria
+            driversStats.sort((a, b) => {
+                let valueA, valueB;
+                
+                switch(sortBy) {
+                    case 'kilometers':
+                        valueA = a.totalKilometers;
+                        valueB = b.totalKilometers;
+                        break;
+                    case 'convoys':
+                        valueA = a.totalConvoys;
+                        valueB = b.totalConvoys;
+                        break;
+                    case 'points':
+                    default:
+                        valueA = a.totalPoints;
+                        valueB = b.totalPoints;
+                        break;
+                }
+                
+                if (sortOrder === 'asc') {
+                    return valueA - valueB;
+                } else {
+                    return valueB - valueA;
+                }
+            });
+            
+            // Update overall statistics
+            updateOverallStats(driversStats);
+            
+            // Generate table rows
+            const tableBody = document.getElementById('overall-table-body');
+            tableBody.innerHTML = '';
+            
+            driversStats.forEach((driver, index) => {
+                const rank = index + 1;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="rank-cell">${rank}</td>
+                    <td class="driver-cell">
+                        <img src="${driver.avatar}" alt="${driver.name}" class="driver-avatar-small">
+                        <div class="driver-info-small">
+                            <div class="driver-name-small">${driver.name}</div>
+                            <div class="driver-id-small">ID: ${driver.id.toString().padStart(3, '0')}</div>
+                        </div>
+                    </td>
+                    <td class="points-cell">${formatNumber(driver.totalPoints)}</td>
+                    <td>${driver.totalKilometers.toLocaleString()} km</td>
+                    <td>${driver.totalConvoys}</td>
+                    <td>
+                        <button class="view-details-btn-small" data-id="${driver.id}">View Details</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Add event listeners to view details buttons
+            document.querySelectorAll('.view-details-btn-small').forEach(button => {
+                button.addEventListener('click', function() {
+                    const driverId = parseInt(this.getAttribute('data-id'));
+                    showDriverDetails(driverId);
+                });
+            });
+        }
+
+        // Update overall statistics display
+        function updateOverallStats(driversStats) {
+            const totalDrivers = driversStats.length;
+            const totalPoints = driversStats.reduce((sum, driver) => sum + driver.totalPoints, 0);
+            const totalKilometers = driversStats.reduce((sum, driver) => sum + driver.totalKilometers, 0);
+            const totalConvoys = driversStats.reduce((sum, driver) => sum + driver.totalConvoys, 0);
+            const avgPoints = totalDrivers > 0 ? totalPoints / totalDrivers : 0;
+            
+            document.getElementById('total-drivers').textContent = totalDrivers;
+            document.getElementById('avg-points').textContent = formatNumber(avgPoints);
+            document.getElementById('total-km-overall').textContent = totalKilometers.toLocaleString();
+            document.getElementById('total-convoys-overall').textContent = totalConvoys;
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
