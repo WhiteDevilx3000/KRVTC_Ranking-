@@ -979,7 +979,8 @@
                         <option value="2026-01">January 2026</option>
                         <option value="2026-02">February 2026</option>
                         <option value="2026-03">March 2026</option>
-                        <option value="2026-04" selected>April 2026</option>
+                        <option value="2026-04">April 2026</option>
+                        <option value="2026-05" selected>May 2026</option>
                     </select>
                 </div>
             </div>
@@ -1299,6 +1300,7 @@
                             <option value="2026-02">February 2026</option>
                             <option value="2026-03">March 2026</option>
                             <option value="2026-04">April 2026</option>
+                            <option value="2026-05">May 2026</option>
                         </select>
                         
                         <label for="sort-order">Order:</label>
@@ -3723,8 +3725,8 @@
         function init() {
             const monthSelect = document.getElementById('month-select');
             
-            // Set default month to March 2026
-            monthSelect.value = '2026-04';
+            // Set default month to May 2026
+            monthSelect.value = '2026-05';
             
             // Generate initial driver cards
             generateDriverCards(monthSelect.value);
